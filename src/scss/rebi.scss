@@ -1,30 +1,57 @@
+@import "vars";
+
 #rebi {
+    * {
+        box-sizing: border-box;
+    }
+
     .rebi {
-        // section 1 - building
-        &__building {
-            height: 100vh;
+        &__section {
+            position: relative;
+
+            &-building {
+                height: 100vh;
+                color: $color-title;
+            }
+
+            &-floors {
+
+            }
+
+            &-apartments {
+
+            }
         }
 
-        &__titleBlock {
+        &__building {
+            background-color: lightslategray;
+            height: 100%;
+        }
 
+        &__tip {
+            text-transform: uppercase;
+            position: absolute;
+            left: $section-padding-x;
+            top: 50%;
+            transform: rotateZ(-90deg);
+            transform-origin: left center;
+        }
+
+        &__title-block {
+            position: absolute;
+            left: $section-padding-x;
+            bottom: $section-padding-y;
         }
 
         &__subtitle {
-
+            text-transform: uppercase;
+            font-size: 1.5rem;
         }
 
         &__title {
-
+            font-size: 3rem;
+            margin: .5rem 0;
         }
 
-        // section 2 - floors
-        &__floors {
-
-        }
-
-        // section 3 - apartments
-        &__apartments {
-
-        }
     }
 }
