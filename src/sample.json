@@ -1,0 +1,26 @@
+{
+    "id": 1,
+    "title": "Park WyszyńskiEGO!",
+    "subtitle": "Nowe osiedle",
+    "image": "/img/bud.jpg",
+    "floors": [
+      {
+        "id": 12,
+        "name": "pietro 1",
+        "polygons": [],
+        "apartments": [
+          123, 124, 125
+        ]
+      }
+    ],
+    "apartments": [
+      {
+        "id": 123,
+        "name": "mieszkanie 1",
+        "status": 1,
+        "area": 32,
+        "link": "",
+        "polygons": []
+      }
+    ]
+}
