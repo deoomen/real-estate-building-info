@@ -8,7 +8,7 @@ const postcss = require('gulp-postcss');
 const autoprefixer = require('autoprefixer');
 const cssnano = require('cssnano');
 const sourcemaps = require('gulp-sourcemaps');
-const babel = require('gulp-babel');
+// const babel = require('gulp-babel');
 const uglify = require('gulp-uglify');
 
 function destDir() {
@@ -28,16 +28,16 @@ function scss() {
 function js() {
   return gulp
     .src(srcDir + '/js/*.js')
-    .pipe(babel({
-      presets: ['@babel/env']
-    }))
+    // .pipe(babel({
+    //   presets: ['@babel/env']
+    // }))
     .pipe(uglify())
     .pipe(gulp.dest(destDir() + '/js'));
 }
 
 function watch() {
   gulp.watch(srcDir + '/scss/*.scss', scss);
-  gulp.watch(srcDir + '/js/*.js', js);
+  // gulp.watch(srcDir + '/js/*.js', js);
 }
 
 function build() {
@@ -45,6 +45,7 @@ function build() {
 }
 
 exports.watch = watch;
+exports.dev = scss;
 // exports.build = build;
 
-exports.default = gulp.parallel(scss, js);
+// exports.default = gulp.parallel(scss, js);
