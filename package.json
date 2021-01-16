@@ -2,7 +2,7 @@
   "name": "real-estate-building-info",
   "version": "1.0.0",
   "description": "Real estate building information",
-  "main": "index.html",
+  "main": "src/index.html",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -18,5 +18,21 @@
     "information"
   ],
   "author": "deoomen <deoomen@pm.me>",
-  "license": "UNLICENSED"
+  "license": "UNLICENSED",
+  "devDependencies": {
+    "@babel/core": "^7.12.10",
+    "@babel/preset-env": "^7.12.11",
+    "autoprefixer": "^10.2.1",
+    "cssnano": "^4.1.10",
+    "gulp": "^4.0.2",
+    "gulp-babel": "^8.0.0",
+    "gulp-cli": "^2.3.0",
+    "gulp-postcss": "^9.0.0",
+    "gulp-sass": "^4.1.0",
+    "gulp-sourcemaps": "^3.0.0",
+    "gulp-uglify": "^3.0.2",
+    "node-sass": "^5.0.0",
+    "postcss": "^8.2.4"
+  },
+  "dependencies": {}
 }
