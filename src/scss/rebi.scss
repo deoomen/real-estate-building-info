@@ -10,7 +10,6 @@
             position: relative;
 
             &-building {
-                height: 100vh;
                 color: $color-title;
             }
 
@@ -24,8 +23,10 @@
         }
 
         &__building {
-            background-color: lightslategray;
-            height: 100%;
+            img {
+                width: 100%;
+                height: auto;
+            }
         }
 
         &__tip {
@@ -33,7 +34,7 @@
             position: absolute;
             left: $section-padding-x;
             top: 50%;
-            transform: rotateZ(-90deg);
+            transform: rotateZ(-90deg) translateX(-50%);
             transform-origin: left center;
         }
 
