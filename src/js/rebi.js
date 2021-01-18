@@ -27,8 +27,33 @@ function REBI(options) {
     document.querySelector(`${options.container} .rebi__building img`).src = _properties.resource.image;
   };
 
+  const _buildParams = function () {
+    _properties.resource.floors.forEach((floor, index) => {
+      const paramId = 'floor' + index;
+
+      const paramBlock = document.createElement('div');
+      paramBlock.classList.add('rebi__params-floor');
+
+      const paramRadio = document.createElement('input');
+      paramRadio.setAttribute('type', 'radio');
+      paramRadio.setAttribute('name', 'floor');
+      paramRadio.setAttribute('id', paramId);
+      paramRadio.setAttribute('value', index);
+
+      const paramLabel = document.createElement('label');
+      paramLabel.setAttribute('for', paramId);
+      paramLabel.innerText = floor.name;
+
+      paramBlock.appendChild(paramRadio);
+      paramBlock.appendChild(paramLabel);
+
+      document.querySelector(`${options.container} .rebi__params-floors`).appendChild(paramBlock);
+    });
+  };
+
   const _buildREBI = function () {
     _buildBuilding();
+    _buildParams();
   };
 
   const _getResource = function () {
