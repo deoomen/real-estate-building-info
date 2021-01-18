@@ -1,5 +1,6 @@
 /**
  * @author deoomen <deoomen@pm.me>
+ *
  * @param {*} options
  */
 function REBI(options) {
@@ -17,16 +18,28 @@ function REBI(options) {
   };
 
   // *** private methods ***
+
+  /**
+   * Log message to `console.error` output.
+   *
+   * @param {string} message text to log output error
+   */
   const _logError = function (message) {
     console.error(`REBI failed: ${message}`);
   };
 
+  /**
+   * Build section 'building'.
+   */
   const _buildBuilding = function () {
     document.querySelector(`${options.container} .rebi__title`).innerText = _properties.resource.title;
     document.querySelector(`${options.container} .rebi__subtitle`).innerText = _properties.resource.subtitle;
     document.querySelector(`${options.container} .rebi__building img`).src = _properties.resource.image;
   };
 
+  /**
+   * Build section 'floors'.
+   */
   const _buildParams = function () {
     _properties.resource.floors.forEach((floor, index) => {
       const paramId = 'floor' + index;
@@ -51,11 +64,17 @@ function REBI(options) {
     });
   };
 
+  /**
+   * Build process.
+   */
   const _buildREBI = function () {
     _buildBuilding();
     _buildParams();
   };
 
+  /**
+   * Load resource and runs build process.
+   */
   const _getResource = function () {
     const xhr = new XMLHttpRequest();
     xhr.open('GET', options.resourceUrl, true);
@@ -76,6 +95,10 @@ function REBI(options) {
   };
 
   // *** public methods ***
+
+  /**
+   * Initialize REBI plugin.
+   */
   this.init = function () {
     _properties.container = document.querySelector(options.container);
     if (_properties.container === null) {
@@ -83,6 +106,7 @@ function REBI(options) {
 
       return;
     }
+
     _getResource();
   };
 }
