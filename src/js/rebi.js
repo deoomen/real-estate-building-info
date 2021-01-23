@@ -33,14 +33,14 @@ function REBI(options) {
   };
 
   /**
-   * Build a svg map with polygons.
+   * Build a svg building map with polygons.
    *
    * @param {HTMLElement} container$ svg parent element
    * @param {number} width naturalWidth for viewBox
    * @param {number} height naturalHeight for viewBox
    * @param {object} polygons array of polygons
    */
-  const _buildMap = function (container$, width, height, polygons) {
+  const _buildMapBuilding = function (container$, width, height, polygons) {
     const svg = document.createElementNS(_properties.svgSchema, 'svg');
     svg.setAttributeNS(null, 'viewBox', `0 0 ${width} ${height}`);
     svg.classList.add('rebi__map');
@@ -48,12 +48,48 @@ function REBI(options) {
     polygons.forEach(elem => {
       const polygon = document.createElementNS(_properties.svgSchema, 'polygon');
       polygon.setAttribute('points', elem.points.map(p => p.join(' ')).join(' '));
+      polygon.dataset.floor = elem.floor;
+      polygon.addEventListener('mousedown', function () {
+        document.querySelector(`${options.container} input#floor${this.dataset.floor}`).click();
+        window.scroll({
+          top: document.querySelector(`${options.container} .rebi__section-floors-params`).offsetTop,
+          behavior: 'smooth'
+        });
+      });
 
       svg.appendChild(polygon);
     });
 
     container$.appendChild(svg);
   };
+
+  /**
+   * Build a svg floor map with polygons.
+   *
+   * @param {HTMLElement} container$ svg parent element
+   * @param {number} width naturalWidth for viewBox
+   * @param {number} height naturalHeight for viewBox
+   * @param {object} polygons array of polygons
+   */
+  const _buildMapFloor = function (container$, width, height, polygons) {
+    const svg = document.createElementNS(_properties.svgSchema, 'svg');
+    svg.setAttributeNS(null, 'viewBox', `0 0 ${width} ${height}`);
+    svg.classList.add('rebi__map');
+
+    polygons.forEach(apartment => {
+      const polygon = document.createElementNS(_properties.svgSchema, 'polygon');
+      polygon.setAttribute('points', apartment.points.map(p => p.join(' ')).join(' '));
+
+      const apartmentData = _properties.resource.apartments.find(apartmentData => apartmentData.id === apartment.apartment);
+      if (apartmentData) {
+        polygon.classList.add(`status-${apartmentData.status}`);
+      }
+
+      svg.appendChild(polygon);
+    });
+
+    container$.appendChild(svg);
+  }
 
   /**
    * Build section 'building'.
@@ -63,7 +99,7 @@ function REBI(options) {
     document.querySelector(`${options.container} .rebi__subtitle`).innerText = _properties.resource.subtitle;
     document.querySelector(`${options.container} .rebi__building img`).src = _properties.resource.image;
     document.querySelector(`${options.container} .rebi__building img`).onload = function () {
-      _buildMap(
+      _buildMapBuilding(
         document.querySelector(`${options.container} .rebi__building`),
         this.naturalWidth,
         this.naturalHeight,
@@ -77,7 +113,7 @@ function REBI(options) {
    */
   const _buildParams = function () {
     _properties.resource.floors.forEach((floor, index) => {
-      const paramId = 'floor' + index;
+      const paramId = `floor${floor.id}`;
 
       const paramBlock = document.createElement('div');
       paramBlock.classList.add('rebi__params-floor');
@@ -109,9 +145,10 @@ function REBI(options) {
    * @param {number} index
    */
   const _carouselSwipe = function (carousel$, index) {
-    if (carousel$.children[index].dataset.src) {
-      carousel$.children[index].setAttribute('src', carousel$.children[index].dataset.src);
-      carousel$.children[index].dataset.src = '';
+    const img = carousel$.children[index].firstElementChild;
+    if (img.dataset.src) {
+      img.setAttribute('src', img.dataset.src);
+      img.dataset.src = '';
     }
 
     carousel$.setAttribute('style', `transform: translateX(-${index}00%)`);
@@ -127,12 +164,20 @@ function REBI(options) {
     carousel.appendChild(_properties.carousels.floors$);
 
     _properties.resource.floors.forEach(floor => {
+      const slide = document.createElement('div');
+      slide.classList.add('rebi-carousel__slide');
+      slide.dataset.floor = floor.id;
+
       const img = document.createElement('img');
       img.setAttribute('id', `floor${floor.id}`);
       img.dataset.src = floor.image;
       img.setAttribute('alt', floor.name);
+      img.onload = function () {
+        _buildMapFloor(slide, this.naturalWidth, this.naturalHeight, floor.polygons);
+      };
 
-      _properties.carousels.floors$.appendChild(img);
+      slide.appendChild(img);
+      _properties.carousels.floors$.appendChild(slide);
     });
 
     _carouselSwipe(_properties.carousels.floors$, 0);
