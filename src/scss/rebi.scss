@@ -6,6 +6,11 @@
     }
 
     input {
+        &[type="radio"],
+        +label {
+            cursor: pointer;
+        }
+
         &[type="radio"] {
             position: relative;
 
@@ -110,10 +115,20 @@
             }
         }
 
-        &__building {
+        &__building,
+        &-carousel {
             img {
                 width: 100%;
                 height: auto;
+            }
+        }
+
+        &-carousel {
+            overflow: hidden;
+
+            &__slides {
+                display: flex;
+                transition: .5s ease-in-out;
             }
         }
 

@@ -13,7 +13,10 @@ function REBI(options) {
   options = { ...defaultOptions, ...options };
   const _this = this;
   const _properties = {
-    container: null,
+    container$: null,
+    carousels: {
+      floors$: null
+    },
     resource: {},
   };
 
@@ -38,7 +41,7 @@ function REBI(options) {
   };
 
   /**
-   * Build section 'floors'.
+   * Build section 'floors', floors params.
    */
   const _buildParams = function () {
     _properties.resource.floors.forEach((floor, index) => {
@@ -52,6 +55,9 @@ function REBI(options) {
       paramRadio.setAttribute('name', 'floor');
       paramRadio.setAttribute('id', paramId);
       paramRadio.setAttribute('value', index);
+      paramRadio.addEventListener('change', function () {
+        _carouselSwipe(_properties.carousels.floors$, this.value);
+      });
 
       const paramLabel = document.createElement('label');
       paramLabel.setAttribute('for', paramId);
@@ -65,11 +71,48 @@ function REBI(options) {
   };
 
   /**
+   * Move given carousel to given index.
+   *
+   * @param {HTMLElement} carousel$
+   * @param {number} index
+   */
+  const _carouselSwipe = function (carousel$, index) {
+    if (carousel$.children[index].dataset.src) {
+      carousel$.children[index].setAttribute('src', carousel$.children[index].dataset.src);
+      carousel$.children[index].dataset.src = '';
+    }
+
+    carousel$.setAttribute('style', `transform: translateX(-${index}00%)`);
+  };
+
+  /**
+   * Build section 'floors', floors carousel.
+   */
+  const _buildFloors = function () {
+    const carousel = document.querySelector(`${options.container} .rebi-carousel__floors`);
+    _properties.carousels.floors$ = document.createElement('div');
+    _properties.carousels.floors$.classList.add('rebi-carousel__slides');
+    carousel.appendChild(_properties.carousels.floors$);
+
+    _properties.resource.floors.forEach(floor => {
+      const img = document.createElement('img');
+      img.setAttribute('id', `floor${floor.id}`);
+      img.dataset.src = floor.image;
+      img.setAttribute('alt', floor.name);
+
+      _properties.carousels.floors$.appendChild(img);
+    });
+
+    _carouselSwipe(_properties.carousels.floors$, 0);
+  };
+
+  /**
    * Build process.
    */
   const _buildREBI = function () {
     _buildBuilding();
     _buildParams();
+    _buildFloors();
   };
 
   /**
@@ -100,8 +143,8 @@ function REBI(options) {
    * Initialize REBI plugin.
    */
   this.init = function () {
-    _properties.container = document.querySelector(options.container);
-    if (_properties.container === null) {
+    _properties.container$ = document.querySelector(options.container);
+    if (_properties.container$ === null) {
       _logError('Container not found');
 
       return;
