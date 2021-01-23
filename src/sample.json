@@ -3,12 +3,35 @@
     "title": "Park WyszyńskiEGO!",
     "subtitle": "Nowe osiedle",
     "image": "https://dummyimage.com/1920x1080/000/fff.jpg",
+    "polygons": [
+      {
+        "points": [
+          [256, 579],
+          [1007, 237],
+          [1464, 507],
+          [1466, 584],
+          [1020, 384],
+          [266, 643]
+        ],
+        "floor": 1
+      }
+    ],
     "floors": [
       {
         "id": 1,
         "name": "Parter",
-        "image": "",
-        "polygons": [],
+        "image": "https://dummyimage.com/1920x1080/A00/fff.jpg",
+        "polygons": [
+          {
+            "points": [
+              [429, 560],
+              [766, 560],
+              [766, 798],
+              [429, 798]
+            ],
+            "apartment": 123
+          }
+        ],
         "apartments": [
           1, 2, 3
         ]
@@ -16,7 +39,7 @@
       {
         "id": 2,
         "name": "Piętro 1",
-        "image": "",
+        "image": "https://dummyimage.com/1920x1080/0A0/fff.jpg",
         "polygons": [],
         "apartments": [
           4, 5, 6
@@ -25,7 +48,7 @@
       {
         "id": 3,
         "name": "Piętro 2",
-        "image": "",
+        "image": "https://dummyimage.com/1920x1080/00A/fff.jpg",
         "polygons": [],
         "apartments": [
           7, 8, 9
@@ -38,8 +61,7 @@
         "name": "mieszkanie 1",
         "status": 1,
         "area": 32,
-        "link": "",
-        "polygons": []
+        "link": ""
       }
     ]
 }
