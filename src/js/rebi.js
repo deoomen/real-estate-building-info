@@ -18,6 +18,7 @@ function REBI(options) {
       floors$: null
     },
     resource: {},
+    svgSchema: 'http://www.w3.org/2000/svg'
   };
 
   // *** private methods ***
@@ -32,12 +33,43 @@ function REBI(options) {
   };
 
   /**
+   * Build a svg map with polygons.
+   *
+   * @param {HTMLElement} container$ svg parent element
+   * @param {number} width naturalWidth for viewBox
+   * @param {number} height naturalHeight for viewBox
+   * @param {object} polygons array of polygons
+   */
+  const _buildMap = function (container$, width, height, polygons) {
+    const svg = document.createElementNS(_properties.svgSchema, 'svg');
+    svg.setAttributeNS(null, 'viewBox', `0 0 ${width} ${height}`);
+    svg.classList.add('rebi__map');
+
+    polygons.forEach(elem => {
+      const polygon = document.createElementNS(_properties.svgSchema, 'polygon');
+      polygon.setAttribute('points', elem.points.map(p => p.join(' ')).join(' '));
+
+      svg.appendChild(polygon);
+    });
+
+    container$.appendChild(svg);
+  };
+
+  /**
    * Build section 'building'.
    */
   const _buildBuilding = function () {
     document.querySelector(`${options.container} .rebi__title`).innerText = _properties.resource.title;
     document.querySelector(`${options.container} .rebi__subtitle`).innerText = _properties.resource.subtitle;
     document.querySelector(`${options.container} .rebi__building img`).src = _properties.resource.image;
+    document.querySelector(`${options.container} .rebi__building img`).onload = function () {
+      _buildMap(
+        document.querySelector(`${options.container} .rebi__building`),
+        this.naturalWidth,
+        this.naturalHeight,
+        _properties.resource.polygons
+      );
+    };
   };
 
   /**

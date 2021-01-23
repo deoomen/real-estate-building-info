@@ -123,6 +123,28 @@
             }
         }
 
+        &__building {
+            position: relative;
+        }
+
+        &__map {
+            position: absolute;
+            top: 0;
+            left: 0;
+
+            polygon {
+                fill: $color-map-building;
+                cursor: pointer;
+                opacity: 0;
+                transition: .3s ease-in-out;
+
+                &:hover {
+                    opacity: .5;
+                }
+            }
+        }
+
+
         &-carousel {
             overflow: hidden;
 
