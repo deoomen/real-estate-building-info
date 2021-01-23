@@ -83,6 +83,14 @@ function REBI(options) {
       const apartmentData = _properties.resource.apartments.find(apartmentData => apartmentData.id === apartment.apartment);
       if (apartmentData) {
         polygon.classList.add(`status-${apartmentData.status}`);
+        polygon.addEventListener('mousedown', function () {
+          console.log('TODO');
+          // document.querySelector(`${options.container} input#floor${this.dataset.floor}`).click();
+          // window.scroll({
+          //   top: document.querySelector(`${options.container} .rebi__section-floors-params`).offsetTop,
+          //   behavior: 'smooth'
+          // });
+        });
       }
 
       svg.appendChild(polygon);
