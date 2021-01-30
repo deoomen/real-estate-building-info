@@ -95,6 +95,13 @@ function REBI(options) {
     console.error(`REBI failed: ${message}`);
   };
 
+  const _scrollTo = function (classname) {
+    window.scroll({
+      top: document.querySelector(`${options.container} ${classname}`).offsetTop,
+      behavior: 'smooth'
+    });
+  };
+
   /**
    * Build a svg building map with polygons.
    *
@@ -114,10 +121,7 @@ function REBI(options) {
       polygon.dataset.floor = elem.floor;
       polygon.addEventListener('mousedown', function () {
         document.querySelector(`${options.container} input#floor${this.dataset.floor}`).click();
-        window.scroll({
-          top: document.querySelector(`${options.container} .rebi__section-floors-params`).offsetTop,
-          behavior: 'smooth'
-        });
+        _scrollTo('.rebi__section-floors-params');
       });
 
       svg.appendChild(polygon);
@@ -148,12 +152,13 @@ function REBI(options) {
         polygon.classList.add(`status-${apartmentData.status}`);
         polygon.dataset.apartment = apartment.apartment;
         polygon.addEventListener('mousedown', function () {
-          console.log('TODO');
-          // document.querySelector(`${options.container} input#floor${this.dataset.floor}`).click();
-          // window.scroll({
-          //   top: document.querySelector(`${options.container} .rebi__section-floors-params`).offsetTop,
-          //   behavior: 'smooth'
-          // });
+          _carouselSwipe(
+            _properties.carousels.apartments$,
+            document
+              .querySelector(`.rebi__section-apartments-carousel .rebi-carousel__slide[data-apartment="${this.dataset.apartment}"]`)
+              .dataset.index
+          );
+          _scrollTo('.rebi__section-apartments-carousel');
         });
       }
 
@@ -264,11 +269,12 @@ function REBI(options) {
     _properties.carousels.apartments$.classList.add('rebi-carousel__slides');
     carousel$.appendChild(_properties.carousels.apartments$);
 
-    _properties.resource.apartments.forEach(apartment => {
+    _properties.resource.apartments.forEach((apartment, index) => {
       // slide
       const slide$ = document.createElement('div');
       slide$.classList.add('rebi-carousel__slide');
       slide$.dataset.apartment = apartment.id;
+      slide$.dataset.index = index;
 
       // image
       const img$ = document.createElement('img');
