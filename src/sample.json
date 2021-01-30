@@ -30,6 +30,15 @@
               [429, 798]
             ],
             "apartment": 123
+          },
+          {
+            "points": [
+              [100, 200],
+              [300, 200],
+              [300, 400],
+              [100, 400]
+            ],
+            "apartment": 124
           }
         ],
         "apartments": [
@@ -58,10 +67,47 @@
     "apartments": [
       {
         "id": 123,
-        "name": "mieszkanie 1",
+        "name": "mieszkanie 123",
+        "image": "",
         "status": 1,
+        "floor": 0,
         "area": 32,
-        "link": ""
+        "properties": [
+          {
+            "name": "Pokoje",
+            "value": 4
+          },
+          {
+            "name": "Prop2",
+            "value": "val2"
+          },
+          {
+            "name": "Prop3",
+            "value": "val3"
+          }
+        ]
+      },
+      {
+        "id": 124,
+        "name": "mieszkanie 124",
+        "image": "",
+        "status": 2,
+        "floor": 0,
+        "area": 55,
+        "properties": [
+          {
+            "name": "Pokoje",
+            "value": 4
+          },
+          {
+            "name": "Prop2",
+            "value": "val2"
+          },
+          {
+            "name": "Prop3",
+            "value": "val3"
+          }
+        ]
       }
     ]
 }
