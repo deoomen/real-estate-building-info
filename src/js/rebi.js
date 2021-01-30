@@ -207,6 +207,9 @@ function REBI(options) {
     _carouselSwipe(_properties.carousels.floors$, 0);
   };
 
+  /**
+   * Build section 'apartments', apartments carousel.
+   */
   const _buildApartments = function () {
     const carousel$ = document.querySelector(`${options.container} .rebi-carousel__apartments`);
     _properties.carousels.apartments$ = document.createElement('div');
