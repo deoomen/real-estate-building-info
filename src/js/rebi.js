@@ -288,9 +288,31 @@ function REBI(options) {
       props$.appendChild(name$);
 
       // props - status
-      const status$ = document.createElement('p');
+      const status$ = document.createElement('div');
       status$.classList.add('rebi-apartments-props__status');
-      status$.innerText = options.statuses.find(s => s.value === apartment.status).name;
+      status$.classList.add('rebi__flag');
+      const statusBlock$ = document.createElement('div');
+      statusBlock$.classList.add('rebi__flag-block');
+      switch (apartment.status) {
+        case options.statuses[0].value:
+          statusBlock$.classList.add('rebi__flag--available');
+          break;
+
+        case options.statuses[1].value:
+          statusBlock$.classList.add('rebi__flag--reserved');
+          break;
+
+        case options.statuses[2].value:
+          statusBlock$.classList.add('rebi__flag--sold');
+          break;
+      }
+
+      const statusText$ = document.createElement('span');
+      statusText$.classList.add('rebi__flag-name');
+      statusText$.innerText = options.statuses.find(s => s.value === apartment.status).name;
+
+      status$.appendChild(statusBlock$);
+      status$.appendChild(statusText$);
       props$.appendChild(status$);
 
       // props - area
@@ -319,8 +341,16 @@ function REBI(options) {
       //   props$.appendChild(prop$);
       // });
 
-      slide$.appendChild(props$);
+      // button
+      const btn$ = document.createElement('a');
+      btn$.classList.add('rebi__btn');
+      btn$.classList.add('rebi-apartments-btn');
+      btn$.innerText = 'Pobierz kartę mieszkania';
+      btn$.setAttribute('href', apartment.url);
+      btn$.setAttribute('rel', 'nofollow');
+      props$.appendChild(btn$);
 
+      slide$.appendChild(props$);
       _properties.carousels.apartments$.appendChild(slide$);
     });
 

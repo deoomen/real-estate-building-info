@@ -95,18 +95,19 @@
         &__btn {
             outline: none;
             cursor: pointer;
-
-            &-view {
-                text-transform: uppercase;
-                border: {
-                    width: 2px;
-                    style: solid;
-                    color: $color-accent;
-                }
-                padding: 1rem 2rem;
-                background-color: $bg-light;
-                font-size: 1rem;
+            text: {
+                transform: uppercase;
+                decoration: none;
             }
+            color: inherit;
+            border: {
+                width: 2px;
+                style: solid;
+                color: $color-accent;
+            }
+            padding: 1rem 2rem;
+            background-color: $bg-light;
+            font-size: 1rem;
         }
 
         &__row {
@@ -193,6 +194,10 @@
             &__apartments {
                 img {
                     width: 50%;
+                    object: {
+                        fit: contain;
+                        position: top;
+                    }
                 }
 
                 .rebi-carousel__slide {
@@ -281,6 +286,25 @@
         &-apartments {
             &-props {
                 flex-grow: 1;
+                padding: 3rem;
+                font-size: 1.25rem;
+
+                > p,
+                > div,
+                > a {
+                    margin: {
+                        top: 0;
+                        bottom: 1rem;
+                    };
+                }
+
+                > a {
+                    display: inline-block;
+                }
+
+                &__name {
+                    font-size: 2.5rem;
+                }
             }
         }
     }
