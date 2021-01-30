@@ -321,6 +321,12 @@ function REBI(options) {
       status$.appendChild(statusText$);
       props$.appendChild(status$);
 
+      // props - floor
+      const floor$ = document.createElement('p');
+      floor$.classList.add('rebi-apartments-props__floor');
+      floor$.innerHTML = `Piętro: ${_properties.resource.floors.find(f => f.id === apartment.floor).name}`;
+      props$.appendChild(floor$);
+
       // props - area
       const area$ = document.createElement('p');
       area$.classList.add('rebi-apartments-props__area');
