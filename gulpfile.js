@@ -1,7 +1,6 @@
 const srcDir = 'src';
 const distDir = 'dist';
-const devDir = 'dev';
-let processDir = devDir;
+let processDir = srcDir;
 
 const gulp = require('gulp');
 const sass = require('gulp-sass');
@@ -34,7 +33,7 @@ function js() {
 }
 
 function watch() {
-  processDir = devDir;
+  processDir = srcDir;
   gulp.watch(srcDir + '/scss/*.scss', scss);
 }
 
@@ -52,4 +51,4 @@ function prod(done) {
 exports.watch = watch;
 exports.prod = prod;
 
-exports.default = dev;
+// exports.default = dev;
