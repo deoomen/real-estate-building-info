@@ -49,7 +49,12 @@
         "id": 2,
         "name": "Piętro 1",
         "image": "https://dummyimage.com/1920x1080/0A0/fff.jpg",
-        "polygons": [],
+        "polygons": [
+          {
+            "points": [],
+            "apartment": 124
+          }
+        ],
         "apartments": [
           4, 5, 6
         ]

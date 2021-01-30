@@ -155,7 +155,7 @@ function REBI(options) {
           _carouselSwipe(
             _properties.carousels.apartments$,
             document
-              .querySelector(`.rebi__section-apartments-carousel .rebi-carousel__slide[data-apartment="${this.dataset.apartment}"]`)
+              .querySelector(`.rebi-carousel__slide[data-apartment="${this.dataset.apartment}"]`)
               .dataset.index
           );
           _scrollTo('.rebi__section-apartments-carousel');
@@ -202,6 +202,12 @@ function REBI(options) {
       paramRadio.setAttribute('value', index);
       paramRadio.addEventListener('change', function () {
         _carouselSwipe(_properties.carousels.floors$, this.value);
+        _carouselSwipe(
+          _properties.carousels.apartments$,
+          document
+            .querySelector(`.rebi-carousel__slide[data-apartment="${_properties.resource.floors[this.value].polygons[0].apartment}"]`)
+            .dataset.index
+        );
       });
 
       const paramLabel = document.createElement('label');
