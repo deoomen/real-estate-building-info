@@ -166,7 +166,6 @@
             }
         }
 
-
         &-carousel {
             overflow: hidden;
 
@@ -188,6 +187,16 @@
                     &:hover {
                         opacity: .8;
                     }
+                }
+            }
+
+            &__apartments {
+                img {
+                    width: 50%;
+                }
+
+                .rebi-carousel__slide {
+                    display: flex;
                 }
             }
         }
@@ -268,9 +277,11 @@
                 background-color: $color-sold;
             }
         }
-    }
 
-    &__views {
-
+        &-apartments {
+            &-props {
+                flex-grow: 1;
+            }
+        }
     }
 }

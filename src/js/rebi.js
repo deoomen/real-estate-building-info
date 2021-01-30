@@ -8,14 +8,29 @@ function REBI(options) {
 
   const defaultOptions = {
     container: '#rebi',
-    resourceUrl: './sample.json'
+    resourceUrl: './sample.json',
+    statuses: [
+      {
+        name: 'Dostępne',
+        value: 0
+      },
+      {
+        name: 'Zarezerwowane',
+        value: 1
+      },
+      {
+        name: 'Sprzedane',
+        value: 2
+      },
+    ]
   };
   options = { ...defaultOptions, ...options };
   const _this = this;
   const _properties = {
     container$: null,
     carousels: {
-      floors$: null
+      floors$: null,
+      apartments$: null
     },
     resource: {},
     svgSchema: 'http://www.w3.org/2000/svg'
@@ -83,6 +98,7 @@ function REBI(options) {
       const apartmentData = _properties.resource.apartments.find(apartmentData => apartmentData.id === apartment.apartment);
       if (apartmentData) {
         polygon.classList.add(`status-${apartmentData.status}`);
+        polygon.dataset.apartment = apartment.apartment;
         polygon.addEventListener('mousedown', function () {
           console.log('TODO');
           // document.querySelector(`${options.container} input#floor${this.dataset.floor}`).click();
@@ -97,7 +113,7 @@ function REBI(options) {
     });
 
     container$.appendChild(svg);
-  }
+  };
 
   /**
    * Build section 'building'.
@@ -191,6 +207,75 @@ function REBI(options) {
     _carouselSwipe(_properties.carousels.floors$, 0);
   };
 
+  const _buildApartments = function () {
+    const carousel$ = document.querySelector(`${options.container} .rebi-carousel__apartments`);
+    _properties.carousels.apartments$ = document.createElement('div');
+    _properties.carousels.apartments$.classList.add('rebi-carousel__slides');
+    carousel$.appendChild(_properties.carousels.apartments$);
+
+    _properties.resource.apartments.forEach(apartment => {
+      // slide
+      const slide$ = document.createElement('div');
+      slide$.classList.add('rebi-carousel__slide');
+      slide$.dataset.apartment = apartment.id;
+
+      // image
+      const img$ = document.createElement('img');
+      img$.setAttribute('id', `floor${apartment.id}`);
+      img$.dataset.src = apartment.image;
+      img$.setAttribute('alt', apartment.name);
+      slide$.appendChild(img$);
+
+      // props
+      const props$ = document.createElement('div');
+      props$.classList.add('rebi-apartments-props');
+
+      // props - name
+      const name$ = document.createElement('p');
+      name$.classList.add('rebi-apartments-props__name');
+      name$.innerText = apartment.name;
+      props$.appendChild(name$);
+
+      // props - status
+      const status$ = document.createElement('p');
+      status$.classList.add('rebi-apartments-props__status');
+      status$.innerText = options.statuses.find(s => s.value === apartment.status).name;
+      props$.appendChild(status$);
+
+      // props - area
+      const area$ = document.createElement('p');
+      area$.classList.add('rebi-apartments-props__area');
+      area$.innerHTML = `Powierzchnia: ${apartment.area} m<sup>2</sup>`;
+      props$.appendChild(area$);
+
+      // props - rooms
+      const rooms$ = document.createElement('p');
+      rooms$.classList.add('rebi-apartments-props__rooms');
+      rooms$.innerText = `Pokoje: ${apartment.rooms}`;
+      props$.appendChild(rooms$);
+
+      // props - desc
+      const desc$ = document.createElement('p');
+      desc$.classList.add('rebi-apartments-props__desc');
+      desc$.innerHTML = apartment.description;
+      props$.appendChild(desc$);
+
+      // props - other
+      // apartment.properties.forEach(prop => {
+      //   const prop$ = document.createElement('p');
+      //   prop$.classList.add('rebi-apartments-props__prop');
+      //   prop$.innerText = ;
+      //   props$.appendChild(prop$);
+      // });
+
+      slide$.appendChild(props$);
+
+      _properties.carousels.apartments$.appendChild(slide$);
+    });
+
+    _carouselSwipe(_properties.carousels.apartments$, 0);
+  };
+
   /**
    * Build process.
    */
@@ -198,6 +283,7 @@ function REBI(options) {
     _buildBuilding();
     _buildParams();
     _buildFloors();
+    _buildApartments();
   };
 
   /**
