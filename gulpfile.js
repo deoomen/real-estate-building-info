@@ -38,22 +38,6 @@ function watch() {
   gulp.watch(srcDir + '/scss/*.scss', scss);
 }
 
-function dev(done) {
-  processDir = devDir;
-  scss();
-  gulp
-    .src(srcDir + '/js/*.js')
-    .pipe(gulp.dest(processDir + '/js'));
-  gulp
-    .src(srcDir + '/index.html')
-    .pipe(gulp.dest(processDir));
-  gulp
-    .src(srcDir + '/sample.json')
-    .pipe(gulp.dest(processDir));
-
-  return done();
-}
-
 function prod(done) {
   processDir = distDir;
   scss();
@@ -66,7 +50,6 @@ function prod(done) {
 }
 
 exports.watch = watch;
-exports.dev = dev;
 exports.prod = prod;
 
 exports.default = dev;
