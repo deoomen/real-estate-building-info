@@ -194,10 +194,12 @@
             &__apartments {
                 img {
                     width: 50%;
+                    max-height: 100vh;
                     object: {
                         fit: contain;
                         position: top;
                     }
+                    flex: 0;
                 }
 
                 .rebi-carousel__slide {
@@ -288,6 +290,7 @@
                 flex-grow: 1;
                 padding: 3rem;
                 font-size: 1.25rem;
+                flex: 1;
 
                 > p,
                 > div,

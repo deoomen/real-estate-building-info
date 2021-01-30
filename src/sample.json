@@ -68,7 +68,7 @@
       {
         "id": 123,
         "name": "mieszkanie 123",
-        "image": "https://dummyimage.com/800x800/AA0/fff.jpg",
+        "image": "https://dummyimage.com/1920x1080/AA0/fff.jpg",
         "status": 1,
         "floor": 0,
         "area": 32.22,
@@ -79,7 +79,7 @@
       {
         "id": 124,
         "name": "mieszkanie 124",
-        "image": "https://dummyimage.com/800x800/0AA/fff.jpg",
+        "image": "https://dummyimage.com/1920x1080/0AA/fff.jpg",
         "status": 2,
         "floor": 0,
         "area": 55.5,
