@@ -35,6 +35,12 @@ function REBI(options) {
   const _this = this;
   const _properties = {
     container$: null,
+    sections: {
+      building$: null,
+      params$: null,
+      floors$: null,
+      apartments$: null
+    },
     carousels: {
       floors$: null,
       apartments$: null
@@ -179,7 +185,10 @@ function REBI(options) {
    * Build section 'building'.
    */
   const _buildBuilding = function () {
-    const buildingSection$ = document.querySelector(`${options.container} .rebi__section-building`);
+    const buildingSection$ = document.createElement('div');
+    _properties.sections.building$ = buildingSection$;
+    buildingSection$.classList.add('rebi__section');
+    buildingSection$.classList.add('rebi__section-building');
 
     // building
     const building$ = document.createElement('div');
@@ -222,13 +231,19 @@ function REBI(options) {
     titleBlock$.appendChild(title$);
 
     buildingSection$.appendChild(titleBlock$);
+
+    _properties.container$.appendChild(buildingSection$);
   };
 
   /**
    * Build section 'floors', floors params.
    */
   const _buildParams = function () {
-    const floorsSection$ = document.querySelector(`${options.container} .rebi__section-floors-params`);
+    const floorsSection$ = document.createElement('div');
+    _properties.sections.params$ = floorsSection$;
+    floorsSection$.classList.add('rebi__section');
+    floorsSection$.classList.add('rebi__section--padding');
+    floorsSection$.classList.add('rebi__section-floors-params');
 
     const params$ = document.createElement('div');
     params$.classList.add('rebi__params');
@@ -347,6 +362,8 @@ function REBI(options) {
     legend$.appendChild(right$);
 
     floorsSection$.appendChild(legend$);
+
+    _properties.container$.appendChild(floorsSection$);
   };
 
   /**
@@ -369,10 +386,16 @@ function REBI(options) {
    * Build section 'floors', floors carousel.
    */
   const _buildFloors = function () {
-    const carousel = document.querySelector(`${options.container} .rebi-carousel__floors`);
+    const carousel$ = document.createElement('div');
+    _properties.sections.floors$ = carousel$;
+    carousel$.classList.add('rebi__section');
+    carousel$.classList.add('rebi__section-floors-carousel');
+    carousel$.classList.add('rebi-carousel');
+    carousel$.classList.add('rebi-carousel__floors');
+
     _properties.carousels.floors$ = document.createElement('div');
     _properties.carousels.floors$.classList.add('rebi-carousel__slides');
-    carousel.appendChild(_properties.carousels.floors$);
+    carousel$.appendChild(_properties.carousels.floors$);
 
     _properties.resource.floors.forEach(floor => {
       const slide = document.createElement('div');
@@ -391,6 +414,7 @@ function REBI(options) {
       _properties.carousels.floors$.appendChild(slide);
     });
 
+    _properties.container$.appendChild(carousel$);
     _carouselSwipe(_properties.carousels.floors$, 0);
   };
 
@@ -398,7 +422,13 @@ function REBI(options) {
    * Build section 'apartments', apartments carousel.
    */
   const _buildApartments = function () {
-    const carousel$ = document.querySelector(`${options.container} .rebi-carousel__apartments`);
+    const carousel$ = document.createElement('div');
+    _properties.sections.apartments$ = carousel$;
+    carousel$.classList.add('rebi__section');
+    carousel$.classList.add('rebi__section-apartments-carousel');
+    carousel$.classList.add('rebi-carousel');
+    carousel$.classList.add('rebi-carousel__apartments');
+
     _properties.carousels.apartments$ = document.createElement('div');
     _properties.carousels.apartments$.classList.add('rebi-carousel__slides');
     carousel$.appendChild(_properties.carousels.apartments$);
@@ -500,6 +530,7 @@ function REBI(options) {
       _properties.carousels.apartments$.appendChild(slide$);
     });
 
+    _properties.container$.appendChild(carousel$);
     _carouselSwipe(_properties.carousels.apartments$, 0);
   };
 }
