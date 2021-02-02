@@ -9,21 +9,27 @@ function REBI(options) {
   const defaultOptions = {
     container: '#rebi',
     resourceUrl: './sample.json',
-    tipText: 'Kliknij na piętro aby wybrać',
-    statuses: [
-      {
-        name: 'Dostępne',
-        value: 0
-      },
-      {
-        name: 'Zarezerwowane',
-        value: 1
-      },
-      {
-        name: 'Sprzedane',
-        value: 2
-      },
-    ]
+    texts: {
+      tip: 'Kliknij na piętro aby wybrać',
+      floors: 'Kondygnacje',
+      legend: 'Legenda',
+      statuses: [
+        {
+          name: 'Dostępne',
+          value: 0
+        },
+        {
+          name: 'Zarezerwowane',
+          value: 1
+        },
+        {
+          name: 'Sprzedane',
+          value: 2
+        },
+      ],
+      btnSwitchToList: 'Przełącz na listę',
+      btnSwitchToPlan: 'Przełącz na rzut'
+    }
   };
   options = { ...defaultOptions, ...options };
   const _this = this;
@@ -195,7 +201,7 @@ function REBI(options) {
     const tip$ = document.createElement('div');
     tip$.classList.add('rebi__tip');
     const tipText$ = document.createElement('span');
-    tipText$.innerText = options.tipText;
+    tipText$.innerText = options.texts.tip;
     tip$.appendChild(tipText$);
     buildingSection$.appendChild(tip$);
 
@@ -222,6 +228,20 @@ function REBI(options) {
    * Build section 'floors', floors params.
    */
   const _buildParams = function () {
+    const floorsSection$ = document.querySelector(`${options.container} .rebi__section-floors-params`);
+
+    const params$ = document.createElement('div');
+    params$.classList.add('rebi__params');
+
+    // floors title
+    const titleFloors$ = document.createElement('span');
+    titleFloors$.classList.add('rebi__subsection-title');
+    titleFloors$.innerText = options.texts.floors;
+    params$.appendChild(titleFloors$);
+
+    // params floors
+    const paramsFloors$ = document.createElement('div');
+    paramsFloors$.classList.add('rebi__params-floors');
     _properties.resource.floors.forEach((floor, index) => {
       const paramId = `floor${floor.id}`;
 
@@ -250,8 +270,83 @@ function REBI(options) {
       paramBlock.appendChild(paramRadio);
       paramBlock.appendChild(paramLabel);
 
-      document.querySelector(`${options.container} .rebi__params-floors`).appendChild(paramBlock);
+      paramsFloors$.appendChild(paramBlock);
     });
+    params$.appendChild(paramsFloors$);
+    floorsSection$.appendChild(params$);
+
+    // legend
+    const legend$ = document.createElement('div');
+    legend$.classList.add('rebi__legend');
+    legend$.classList.add('rebi__row');
+
+    // left
+    const left$ = document.createElement('div');
+    left$.classList.add('rebi__col');
+    left$.classList.add('rebi__col--left');
+
+    const titleLegend$ = document.createElement('span');
+    titleLegend$.classList.add('rebi__subsection-title');
+    titleLegend$.innerText = options.texts.legend;
+    left$.appendChild(titleLegend$);
+
+    // flags
+    const flags$ = document.createElement('div');
+    flags$.classList.add('rebi__flags');
+
+    for (let i = 0; i < 3; i++) {
+      const flag$ = document.createElement('div');
+      flag$.classList.add('rebi__flag');
+
+      const flagBlock$ = document.createElement('div');
+      flagBlock$.classList.add('rebi__flag-block');
+      switch (i) {
+        case 0:
+          flagBlock$.classList.add('rebi__flag--available');
+          break;
+
+        case 1:
+          flagBlock$.classList.add('rebi__flag--reserved');
+          break;
+
+        case 2:
+          flagBlock$.classList.add('rebi__flag--sold');
+          break;
+      }
+
+      flag$.appendChild(flagBlock$);
+
+      const flagName$ = document.createElement('span');
+      flagName$.classList.add('rebi__flag-name');
+      flagName$.innerText = options.texts.statuses[i].name;
+      flag$.appendChild(flagName$);
+
+      flags$.appendChild(flag$);
+    }
+
+    left$.appendChild(flags$);
+
+    // right
+    const right$ = document.createElement('div');
+    right$.classList.add('rebi__col');
+    right$.classList.add('rebi__col--right');
+    right$.classList.add('rebi__views');
+
+    const btn$ = document.createElement('button');
+    btn$.classList.add('rebi__btn');
+    btn$.classList.add('rebi__btn-view');
+    btn$.setAttribute('type', 'button');
+
+    const btnText$ = document.createElement('span');
+    btnText$.innerText = options.texts.btnSwitchToList;
+    btn$.appendChild(btnText$);
+
+    right$.appendChild(btn$);
+
+    legend$.appendChild(left$);
+    legend$.appendChild(right$);
+
+    floorsSection$.appendChild(legend$);
   };
 
   /**
@@ -339,22 +434,22 @@ function REBI(options) {
       const statusBlock$ = document.createElement('div');
       statusBlock$.classList.add('rebi__flag-block');
       switch (apartment.status) {
-        case options.statuses[0].value:
+        case options.texts.statuses[0].value:
           statusBlock$.classList.add('rebi__flag--available');
           break;
 
-        case options.statuses[1].value:
+        case options.texts.statuses[1].value:
           statusBlock$.classList.add('rebi__flag--reserved');
           break;
 
-        case options.statuses[2].value:
+        case options.texts.statuses[2].value:
           statusBlock$.classList.add('rebi__flag--sold');
           break;
       }
 
       const statusText$ = document.createElement('span');
       statusText$.classList.add('rebi__flag-name');
-      statusText$.innerText = options.statuses.find(s => s.value === apartment.status).name;
+      statusText$.innerText = options.texts.statuses.find(s => s.value === apartment.status).name;
 
       status$.appendChild(statusBlock$);
       status$.appendChild(statusText$);
