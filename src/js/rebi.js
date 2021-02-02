@@ -348,7 +348,7 @@ function REBI(options) {
       // props - desc
       const desc$ = document.createElement('p');
       desc$.classList.add('rebi-apartments-props__desc');
-      desc$.innerHTML = apartment.description;
+      desc$.innerHTML = apartment.description.replace(/(?:\r\n|\r|\n)/g, '<br>');
       props$.appendChild(desc$);
 
       // props - other
