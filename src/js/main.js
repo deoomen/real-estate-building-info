@@ -1,4 +1,3 @@
 (function() {
-  const rebi = new REBI();
-  rebi.init();
+  (new REBI()).init();
 })();
