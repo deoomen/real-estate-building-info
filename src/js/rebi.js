@@ -76,7 +76,6 @@ function REBI(options) {
     xhr.onload = function () {
       if (xhr.status === 200) {
         _properties.resource = xhr.response;
-        console.log(_properties);
         _buildREBI();
       } else {
         _logError(`Cannot load resource. ${xhr.status} - ${xhr.statusText}`);
