@@ -364,7 +364,7 @@ function REBI(options) {
       btn$.classList.add('rebi__btn');
       btn$.classList.add('rebi-apartments-btn');
       btn$.innerText = 'Pobierz kartę mieszkania';
-      btn$.setAttribute('href', apartment.url);
+      btn$.setAttribute('href', apartment.pdf);
       btn$.setAttribute('rel', 'nofollow');
       props$.appendChild(btn$);
 

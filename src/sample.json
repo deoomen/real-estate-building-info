@@ -79,7 +79,7 @@
         "area": 32.22,
         "rooms": 2,
         "description": "bla<br/>bla<br/>bla",
-        "url": "#"
+        "pdf": "#"
       },
       {
         "id": 124,
@@ -90,7 +90,7 @@
         "area": 55.5,
         "rooms": 4,
         "description": "bla bla bla",
-        "url": "#"
+        "pdf": "#"
       }
     ]
 }
