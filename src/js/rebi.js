@@ -32,7 +32,6 @@ function REBI(options) {
     }
   };
   options = { ...defaultOptions, ...options };
-  const _this = this;
   const _properties = {
     container$: null,
     sections: {
@@ -508,14 +507,6 @@ function REBI(options) {
       desc$.classList.add('rebi-apartments-props__desc');
       desc$.innerHTML = apartment.description.replace(/(?:\r\n|\r|\n)/g, '<br>');
       props$.appendChild(desc$);
-
-      // props - other
-      // apartment.properties.forEach(prop => {
-      //   const prop$ = document.createElement('p');
-      //   prop$.classList.add('rebi-apartments-props__prop');
-      //   prop$.innerText = ;
-      //   props$.appendChild(prop$);
-      // });
 
       // button
       const btn$ = document.createElement('a');
