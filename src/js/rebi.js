@@ -9,6 +9,7 @@ function REBI(options) {
   const defaultOptions = {
     container: '#rebi',
     resourceUrl: './sample.json',
+    tipText: 'Kliknij na piętro aby wybrać',
     statuses: [
       {
         name: 'Dostępne',
@@ -172,17 +173,49 @@ function REBI(options) {
    * Build section 'building'.
    */
   const _buildBuilding = function () {
-    document.querySelector(`${options.container} .rebi__title`).innerText = _properties.resource.title;
-    document.querySelector(`${options.container} .rebi__subtitle`).innerText = _properties.resource.subtitle;
-    document.querySelector(`${options.container} .rebi__building img`).src = _properties.resource.image;
-    document.querySelector(`${options.container} .rebi__building img`).onload = function () {
+    const buildingSection$ = document.querySelector(`${options.container} .rebi__section-building`);
+
+    // building
+    const building$ = document.createElement('div');
+    building$.classList.add('rebi__building');
+    const buildingImage$ = document.createElement('img');
+    buildingImage$.src = _properties.resource.image;
+    buildingImage$.onload = function () {
       _buildMapBuilding(
-        document.querySelector(`${options.container} .rebi__building`),
+        building$,
         this.naturalWidth,
         this.naturalHeight,
         _properties.resource.polygons
       );
     };
+    building$.appendChild(buildingImage$);
+    buildingSection$.appendChild(building$);
+
+    // tip
+    const tip$ = document.createElement('div');
+    tip$.classList.add('rebi__tip');
+    const tipText$ = document.createElement('span');
+    tipText$.innerText = options.tipText;
+    tip$.appendChild(tipText$);
+    buildingSection$.appendChild(tip$);
+
+    // title block
+    const titleBlock$ = document.createElement('div');
+    titleBlock$.classList.add('rebi__title-block');
+
+    if (_properties.resource.subtitle) {
+      const subtitle$ = document.createElement('span');
+      subtitle$.classList.add('rebi__subtitle');
+      subtitle$.innerText = _properties.resource.subtitle;
+      titleBlock$.appendChild(subtitle$);
+    }
+
+    const title$ = document.createElement('h1');
+    title$.classList.add('rebi__title');
+    title$.innerText = _properties.resource.title;
+    titleBlock$.appendChild(title$);
+
+    buildingSection$.appendChild(titleBlock$);
   };
 
   /**
