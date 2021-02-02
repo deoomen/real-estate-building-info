@@ -152,15 +152,15 @@
                 }
 
                 &.status {
-                    &-1 {
+                    &-0 {
                         fill: $color-available;
                     }
 
-                    &-2 {
+                    &-1 {
                         fill: $color-reserved;
                     }
 
-                    &-3 {
+                    &-2 {
                         fill: $color-sold;
                     }
                 }
