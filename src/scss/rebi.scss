@@ -300,7 +300,7 @@
                 font-size: 1rem;
             }
 
-            &--available {
+            &--0 {
                 border: {
                     width: 3px;
                     style: solid;
@@ -309,12 +309,26 @@
                 background-color: $color-available;
             }
 
-            &--reserved {
+            &--1 {
                 background-color: $color-reserved;
             }
 
-            &--sold {
+            &--2 {
                 background-color: $color-sold;
+            }
+
+            &--color {
+                &-0 {
+                    color: $color-available;
+                }
+
+                &-1 {
+                    color: $color-reserved;
+                }
+
+                &-2 {
+                    color: $color-sold;
+                }
             }
         }
 
@@ -352,6 +366,7 @@
             background-color: $bg-tooltip;
             padding: .5rem 1rem;
             color: $color-title;
+            line-height: 1.5;
 
             &--visible {
                 opacity: 1;

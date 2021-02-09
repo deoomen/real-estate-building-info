@@ -162,14 +162,14 @@ function REBI(options) {
     svg.classList.add('rebi__map');
 
     polygons.forEach(apartment => {
-      const polygon = document.createElementNS(_properties.svgSchema, 'polygon');
-      polygon.setAttribute('points', apartment.points.map(p => p.join(' ')).join(' '));
+      const polygon$ = document.createElementNS(_properties.svgSchema, 'polygon');
+      polygon$.setAttribute('points', apartment.points.map(p => p.join(' ')).join(' '));
 
       const apartmentData = _properties.resource.apartments.find(apartmentData => apartmentData.id === apartment.apartment);
       if (apartmentData) {
-        polygon.classList.add(`status-${apartmentData.status}`);
-        polygon.dataset.apartment = apartment.apartment;
-        polygon.addEventListener('mousedown', function () {
+        polygon$.classList.add(`status-${apartmentData.status}`);
+        polygon$.dataset.apartment = apartment.apartment;
+        polygon$.addEventListener('mousedown', function () {
           _carouselSwipe(
             _properties.carousels.apartments$,
             document
@@ -178,9 +178,10 @@ function REBI(options) {
           );
           _scrollTo('.rebi__section-apartments-carousel');
         });
+        _tooltipEvents(polygon$, `${apartmentData.name}<br/>${apartmentData.area} m<sup>2</sup> | <span class="rebi__flag--color-${apartmentData.status}">${options.texts.statuses.find(s => s.value === apartmentData.status).name}</span><br/>KLIKNIJ PO SZCZEGÓŁY`);
       }
 
-      svg.appendChild(polygon);
+      svg.appendChild(polygon$);
     });
 
     container$.appendChild(svg);
@@ -320,19 +321,7 @@ function REBI(options) {
 
       const flagBlock$ = document.createElement('div');
       flagBlock$.classList.add('rebi__flag-block');
-      switch (i) {
-        case 0:
-          flagBlock$.classList.add('rebi__flag--available');
-          break;
-
-        case 1:
-          flagBlock$.classList.add('rebi__flag--reserved');
-          break;
-
-        case 2:
-          flagBlock$.classList.add('rebi__flag--sold');
-          break;
-      }
+      flagBlock$.classList.add(`rebi__flag--${i}`);
 
       flag$.appendChild(flagBlock$);
 
@@ -468,19 +457,7 @@ function REBI(options) {
       status$.classList.add('rebi__flag');
       const statusBlock$ = document.createElement('div');
       statusBlock$.classList.add('rebi__flag-block');
-      switch (apartment.status) {
-        case options.texts.statuses[0].value:
-          statusBlock$.classList.add('rebi__flag--available');
-          break;
-
-        case options.texts.statuses[1].value:
-          statusBlock$.classList.add('rebi__flag--reserved');
-          break;
-
-        case options.texts.statuses[2].value:
-          statusBlock$.classList.add('rebi__flag--sold');
-          break;
-      }
+      statusBlock$.classList.add(`rebi__flag--${apartment.status}`);
 
       const statusText$ = document.createElement('span');
       statusText$.classList.add('rebi__flag-name');
