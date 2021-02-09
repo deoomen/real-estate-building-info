@@ -343,5 +343,19 @@
                 }
             }
         }
+
+        &__tooltip {
+            opacity: 0;
+            transition: opacity .3s ease-in-out;
+            position: absolute;
+            z-index: 100;
+            background-color: $bg-tooltip;
+            padding: .5rem 1rem;
+            color: $color-title;
+
+            &--visible {
+                opacity: 1;
+            }
+        }
     }
 }

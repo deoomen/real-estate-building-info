@@ -34,6 +34,7 @@ function REBI(options) {
   options = { ...defaultOptions, ...options };
   const _properties = {
     container$: null,
+    tooltip$: null,
     sections: {
       building$: null,
       params$: null,
@@ -91,6 +92,11 @@ function REBI(options) {
    * Build process.
    */
   const _buildREBI = function () {
+    _properties.tooltip$ = document.createElement('div');
+    _properties.tooltip$.setAttribute('id', 'tooltipFloor');
+    _properties.tooltip$.classList.add('rebi__tooltip');
+    _properties.container$.appendChild(_properties.tooltip$);
+
     _buildBuilding();
     _buildParams();
     _buildFloors();
@@ -127,15 +133,16 @@ function REBI(options) {
     svg.classList.add('rebi__map');
 
     polygons.forEach(elem => {
-      const polygon = document.createElementNS(_properties.svgSchema, 'polygon');
-      polygon.setAttribute('points', elem.points.map(p => p.join(' ')).join(' '));
-      polygon.dataset.floor = elem.floor;
-      polygon.addEventListener('mousedown', function () {
+      const polygon$ = document.createElementNS(_properties.svgSchema, 'polygon');
+      polygon$.setAttribute('points', elem.points.map(p => p.join(' ')).join(' '));
+      polygon$.dataset.floor = elem.floor;
+      polygon$.addEventListener('mousedown', function () {
         document.querySelector(`${options.container} input#floor${this.dataset.floor}`).click();
         _scrollTo('.rebi__section-floors-params');
       });
+      _tooltipEvents(polygon$, _properties.resource.floors.find(f => f.id === elem.floor).name);
 
-      svg.appendChild(polygon);
+      svg.appendChild(polygon$);
     });
 
     container$.appendChild(svg);
@@ -522,5 +529,24 @@ function REBI(options) {
 
     _properties.container$.appendChild(carousel$);
     _carouselSwipe(_properties.carousels.apartments$, 0);
+  };
+
+  /**
+   * Attach mouse events which shows tooltip.
+   *
+   * @param {HTMLElement} element$
+   * @param {string} html
+   */
+  const _tooltipEvents = function (element$, html) {
+    element$.addEventListener('mouseenter', function () {
+      _properties.tooltip$.classList.add('rebi__tooltip--visible');
+      _properties.tooltip$.innerHTML = html;
+    });
+    element$.addEventListener('mousemove', function (event) {
+      _properties.tooltip$.setAttribute('style', `top:${event.pageY - 38}px;left:${event.pageX + 14}px`);
+    });
+    element$.addEventListener('mouseleave', function () {
+      _properties.tooltip$.classList.remove('rebi__tooltip--visible');
+    });
   };
 }
