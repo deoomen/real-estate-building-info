@@ -12,4 +12,16 @@ $bg-light: #fff;
 // spacing
 $section-padding-x: 3rem;
 $section-padding-y: 2rem;
-$section-padding: $section-padding-y $section-padding-x;
+
+// media breakpoints
+$media-s-min: 576px;
+$media-m-min: 768px;
+$media-l-min: 992px;
+$media-xl-min: 1200px;
+$media-xxl-min: 1400px;
+
+$media-xs-max: ($media-s-min - 1);
+$media-s-max: ($media-m-min - 1);
+$media-m-max: ($media-l-min - 1);
+$media-l-max: ($media-xl-min - 1);
+$media-xl-max: ($media-xxl-min - 1);
