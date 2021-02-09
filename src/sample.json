@@ -67,6 +67,24 @@
         "apartments": [
           7, 8, 9
         ]
+      },
+      {
+        "id": 4,
+        "name": "Piętro 3",
+        "image": "https://dummyimage.com/1920x1080/00A/fff.jpg",
+        "polygons": [],
+        "apartments": [
+          7, 8, 9
+        ]
+      },
+      {
+        "id": 5,
+        "name": "Piętro 4",
+        "image": "https://dummyimage.com/1920x1080/00A/fff.jpg",
+        "polygons": [],
+        "apartments": [
+          7, 8, 9
+        ]
       }
     ],
     "apartments": [
