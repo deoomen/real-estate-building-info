@@ -28,7 +28,13 @@ function REBI(options) {
         },
       ],
       btnSwitchToList: 'Przełącz na listę',
-      btnSwitchToPlan: 'Przełącz na rzut'
+      btnSwitchToPlan: 'Przełącz na rzut',
+      listHeaders: [
+        'Nazwa:',
+        'Powierzchnia:',
+        'Pokoje:',
+        'Akcja:'
+      ]
     }
   };
   options = { ...defaultOptions, ...options };
@@ -39,10 +45,12 @@ function REBI(options) {
       building$: null,
       params$: null,
       floors$: null,
+      floorsList$: null,
       apartments$: null
     },
     carousels: {
       floors$: null,
+      floorsList$: null,
       apartments$: null
     },
     resource: {},
@@ -112,6 +120,11 @@ function REBI(options) {
     console.error(`REBI failed: ${message}`);
   };
 
+  /**
+   * Scrolls window to given element by classname.
+   *
+   * @param {string} classname
+   */
   const _scrollTo = function (classname) {
     window.scroll({
       top: document.querySelector(`${options.container} ${classname}`).offsetTop,
@@ -276,6 +289,7 @@ function REBI(options) {
       paramRadio.setAttribute('value', index);
       paramRadio.addEventListener('change', function () {
         _carouselSwipe(_properties.carousels.floors$, this.value);
+        _carouselSwipe(_properties.carousels.floorsList$, this.value);
         _carouselSwipe(
           _properties.carousels.apartments$,
           document
@@ -345,6 +359,20 @@ function REBI(options) {
     btn$.classList.add('rebi__btn');
     btn$.classList.add('rebi__btn-view');
     btn$.setAttribute('type', 'button');
+    btn$.dataset.state = 'list';
+    btn$.addEventListener('mousedown', function () {
+      if (this.dataset.state === 'list') {
+        this.dataset.state = 'plan';
+        this.children[0].innerText = options.texts.btnSwitchToPlan;
+        _properties.sections.floors$.setAttribute('style', 'display:none;');
+        _properties.sections.floorsList$.setAttribute('style', 'display:block;');
+      } else if (this.dataset.state === 'plan') {
+        this.dataset.state = 'list';
+        this.children[0].innerText = options.texts.btnSwitchToList;
+        _properties.sections.floorsList$.setAttribute('style', 'display:none;');
+        _properties.sections.floors$.setAttribute('style', 'display:block;');
+      }
+    });
 
     const btnText$ = document.createElement('span');
     btnText$.innerText = options.texts.btnSwitchToList;
@@ -380,6 +408,7 @@ function REBI(options) {
    * Build section 'floors', floors carousel.
    */
   const _buildFloors = function () {
+    // plan
     const carousel$ = document.createElement('div');
     _properties.sections.floors$ = carousel$;
     carousel$.classList.add('rebi__section');
@@ -391,7 +420,20 @@ function REBI(options) {
     _properties.carousels.floors$.classList.add('rebi-carousel__slides');
     carousel$.appendChild(_properties.carousels.floors$);
 
+    // list
+    const carouselList$ = document.createElement('div');
+    _properties.sections.floorsList$ = carouselList$;
+    carouselList$.classList.add('rebi__section');
+    carouselList$.classList.add('rebi__section-floors-list-carousel');
+    carouselList$.classList.add('rebi-carousel');
+    carouselList$.classList.add('rebi-carousel__floors-list');
+
+    _properties.carousels.floorsList$ = document.createElement('div');
+    _properties.carousels.floorsList$.classList.add('rebi-carousel__slides');
+    carouselList$.appendChild(_properties.carousels.floorsList$);
+
     _properties.resource.floors.forEach(floor => {
+      // plan
       const slide = document.createElement('div');
       slide.classList.add('rebi-carousel__slide');
       slide.dataset.floor = floor.id;
@@ -406,10 +448,83 @@ function REBI(options) {
 
       slide.appendChild(img);
       _properties.carousels.floors$.appendChild(slide);
+
+      // list
+      const slideList$ = document.createElement('div');
+      slideList$.classList.add('rebi-carousel__slide');
+      slideList$.dataset.floor = floor.id;
+
+      const apartmentsContainer$ = document.createElement('div');
+      apartmentsContainer$.classList.add('rebi__table');
+
+      const tr$ = document.createElement('div');
+      tr$.classList.add('rebi__table-tr');
+
+      const th0$ = document.createElement('div');
+      th0$.classList.add('rebi__table-th');
+      th0$.innerText = options.texts.listHeaders[0];
+
+      const th1$ = document.createElement('div');
+      th1$.classList.add('rebi__table-th');
+      th1$.innerText = options.texts.listHeaders[1];
+
+      const th2$ = document.createElement('div');
+      th2$.classList.add('rebi__table-th');
+      th2$.innerText = options.texts.listHeaders[2];
+
+      // const th3$ = document.createElement('div');
+      // th3$.classList.add('rebi__table-th');
+      // th3$.innerText = _properties.texts.listHeaders[3];
+
+      tr$.appendChild(th0$);
+      tr$.appendChild(th1$);
+      tr$.appendChild(th2$);
+      // tr$.appendChild(th3$);
+
+      apartmentsContainer$.appendChild(tr$);
+      floor.apartments.forEach(apartmentId => {
+        const apartment = _properties.resource.apartments.find(a => a.id === apartmentId);
+        const tr$ = document.createElement('div');
+        tr$.classList.add('rebi__table-tr');
+        tr$.classList.add(`rebi__flag--${apartment.status}`);
+        tr$.dataset.apartmentId = apartmentId;
+        tr$.addEventListener('mousedown', function () {
+          _carouselSwipe(
+            _properties.carousels.apartments$,
+            document
+              .querySelector(`.rebi-carousel__slide[data-apartment="${apartmentId}"]`)
+              .dataset.index
+          );
+          _scrollTo('.rebi__section-apartments-carousel');
+        });
+
+        const td0$ = document.createElement('div');
+        td0$.classList.add('rebi__table-td');
+        td0$.innerText = apartment.name;
+
+        const td1$ = document.createElement('div');
+        td1$.classList.add('rebi__table-td');
+        td1$.innerHTML = `${apartment.area} m<sup>2</sup>`;
+
+        const td2$ = document.createElement('div');
+        td2$.classList.add('rebi__table-td');
+        td2$.innerText = apartment.rooms;
+
+        tr$.appendChild(td0$);
+        tr$.appendChild(td1$);
+        tr$.appendChild(td2$);
+
+        apartmentsContainer$.appendChild(tr$);
+      });
+      slideList$.appendChild(apartmentsContainer$);
+
+      _properties.carousels.floorsList$.appendChild(slideList$);
     });
 
     _properties.container$.appendChild(carousel$);
+    _properties.container$.appendChild(carouselList$);
     _carouselSwipe(_properties.carousels.floors$, 0);
+    _carouselSwipe(_properties.carousels.floorsList$, 0);
   };
 
   /**

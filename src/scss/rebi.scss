@@ -185,6 +185,10 @@
                         opacity: .8;
                     }
                 }
+
+                &-list {
+                    display: none;
+                }
             }
 
             &__apartments {
@@ -370,6 +374,33 @@
 
             &--visible {
                 opacity: 1;
+            }
+        }
+
+        &__table {
+            display: table;
+            margin: 0 auto 3rem;
+            border-collapse: collapse;
+            min-width: 60%;
+
+            &-tr {
+                display: table-row;
+                border: 1px solid $color-table;
+
+                &.rebi__flag--2 {
+                    color: #fff;
+                }
+            }
+
+            &-th,
+            &-td {
+                display: table-cell;
+                padding: 1rem;
+            }
+
+            &-th {
+                background-color: $color-table;
+                font-weight: bold;
             }
         }
     }
