@@ -49,7 +49,13 @@ It is safer to be sure that all DOM content are ready:
       },
     ],
     btnSwitchToList: 'Przełącz na listę',
-    btnSwitchToPlan: 'Przełącz na rzut'
+    btnSwitchToPlan: 'Przełącz na rzut',
+    listHeaders: [
+      'Nazwa:',
+      'Powierzchnia:',
+      'Pokoje:',
+      'Akcja:'
+    ]
   }
 }
 ```
